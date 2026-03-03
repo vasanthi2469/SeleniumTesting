@@ -1,0 +1,68 @@
+package TestCases;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import java.time.Duration;
+
+public class TestCase2 {
+	 
+	public static void main(String[] args) {
+		WebDriver driver = new ChromeDriver();
+		
+        driver.manage().window().maximize();
+        driver.get("https://demo.nopcommerce.com/");
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        // Enter "camera" in search box
+        driver.findElement(By.id("small-searchterms")).sendKeys("camera");
+        driver.findElement(By.cssSelector("button[type='submit']")).click();
+
+        // Click product from results
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".product-title a")));
+        driver.findElement(By.cssSelector(".product-title a")).click();
+
+        // Capture product name & price
+        String productName = driver.findElement(By.cssSelector("div.product-name h1")).getText();
+        String productPrice = driver.findElement(By.cssSelector(".price-value-")).getText();
+
+        System.out.println("Product Name: " + productName);
+        System.out.println("Product Price: " + productPrice);
+
+        // Click Add to Cart
+        driver.findElement(By.id("add-to-cart-button-14")).click();
+
+        // Wait for success message
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".bar-notification.success")));
+
+        // Click Shopping Cart
+        driver.findElement(By.linkText("Shopping cart")).click();
+
+        // Verify Product name
+        String cartProductName = driver.findElement(By.cssSelector(".product-name a")).getText();
+        String cartProductPrice = driver.findElement(By.cssSelector(".product-unit-price")).getText();
+        String quantity = driver.findElement(By.cssSelector(".qty-input")).getAttribute("value");
+
+        if(productName.equals(cartProductName))
+            System.out.println("Product name verified");
+
+        if(productPrice.equals(cartProductPrice))
+            System.out.println("Price verified");
+
+        if(quantity.equals("1"))
+            System.out.println("Quantity verified as 1");
+
+        // Click Remove
+        driver.findElement(By.name("removefromcart")).click();
+
+        // Click Update Cart
+        driver.findElement(By.name("updatecart")).click();
+
+        System.out.println("Product removed successfully");
+
+        driver.quit();
+    }
+}
