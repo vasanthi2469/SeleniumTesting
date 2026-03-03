@@ -1,0 +1,45 @@
+package TestCases;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class TestCase1 {
+
+	public static void main(String[] args) throws InterruptedException {
+		WebDriver driver = new ChromeDriver();
+		//step-1 Open website
+		driver.get("https://demo.nopcommerce.com/");
+		
+		//step-2 Click Register
+		driver.findElement(By.xpath("//a[normalize-space()=\"Register\"]")).click();
+		
+		//step-3 Select Gender
+		WebElement Gender = driver.findElement(By.xpath("//span[@class=\"female\"]"));
+		
+		Gender.click();
+		//step-4 Enter: First Name , Last Name , Email (unique) , Password, Confirm Password
+		Thread.sleep(5000);
+		
+		driver.findElement(By.xpath("//input[@id=\"FirstName\"]")).sendKeys("vasanthi");
+		driver.findElement(By.xpath("//input[@id=\"LastName\"]")).sendKeys("Tamalampudi");
+		driver.findElement(By.xpath("(//input[@id='Email'])[1]")).sendKeys("santhoshi246969@gmail.com");
+		driver.findElement(By.xpath("//input[@id=\"Password\"]")).sendKeys("Vasu@2469");
+		driver.findElement(By.xpath("//input[@id=\"ConfirmPassword\"]")).sendKeys("Vasu@2469");
+		
+	    driver.findElement(By.xpath("//button[@id=\"register-button\"]")).click();
+	    driver.findElement(By.linkText("Log out")).click();
+		
+		Thread.sleep(5000);
+		
+		
+		
+		System.out.println("succesfully registered");
+		
+		
+
+
+	}
+
+}
