@@ -1,0 +1,55 @@
+package TestCases;
+
+import java.time.Duration;
+import java.util.Set;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class TestCase_05 {
+
+    public static void main(String[] args) {
+
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+        driver.get("https://testautomationpractice.blogspot.com/");
+
+        // Step 1: Switch to iframe
+        driver.switchTo().frame("frame-one796456169");
+
+        // Step 2: Enter text inside frame
+        driver.findElement(By.id("RESULT_TextField-0")).sendKeys("Automation Test");
+
+        // Step 3: Switch back to main page
+        driver.switchTo().defaultContent();
+
+        // Step 4: Click link that opens new window
+        driver.findElement(By.linkText("Open a new window")).click();
+
+        // Step 5: Switch to new window
+        String parentWindow = driver.getWindowHandle();
+        Set<String> allWindows = driver.getWindowHandles();
+
+        for (String window : allWindows) {
+            if (!window.equals(parentWindow)) {
+                driver.switchTo().window(window);
+            }
+        }
+
+        // Step 6: Print title
+        System.out.println("New Window Title: " + driver.getTitle());
+
+        // Step 7: Close window
+        driver.close();
+
+        // Step 8: Switch back
+        driver.switchTo().window(parentWindow);
+
+        System.out.println("Parent Window Title: " + driver.getTitle());
+
+        driver.quit();
+    }
+}
